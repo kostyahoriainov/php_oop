@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<a href="/logout">LOG OUT</a><br>
+<h1>Добро пожаловать: <?php echo $user['login'] ?></h1>
+<h1>Твой емеил: <?php echo $user['email'] ?></h1>
+<h1>Дата регистрации: <?php echo $user['created_at'] ?> in UTC timezone</h1>
+
+<a href="/news/add">ADD NEWS</a>
+
+</body>
+</html>
