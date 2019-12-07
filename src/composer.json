@@ -1,0 +1,13 @@
+{
+    "name": "kostya/src",
+    "authors": [
+        {
+            "name": "kostyahoriainov",
+            "email": "konstiantyn.horiainov@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "symfony/var-dumper": "^5.0"
+    }
+}
