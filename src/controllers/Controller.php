@@ -37,5 +37,17 @@ abstract class Controller
 
         return $errors;
     }
+
+    protected function isUserAuth(): bool
+    {
+        $session = $this->getRequest()->getSession();
+
+        return isset($session['auth']);
+    }
+
+    protected function getAuthUserId(): int
+    {
+        return $this->getRequest()->getSession()['auth'];
+    }
 }
 

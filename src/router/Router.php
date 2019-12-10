@@ -52,6 +52,12 @@ class Router
             case '/sign-up/save':
                 (new User($this->request))->signUpSaveAction();
                 break;
+            case '/home':
+                (new User($this->request))->homeAction();
+                break;
+            case '/logout':
+                (new User($this->request))->logoutAction();
+                break;
             default :
                 echo '404';
         }

@@ -22,4 +22,18 @@ abstract class Model
 
         return $data;
     }
+
+    protected static function insertData(PDO $connection, string $sql, array $params = []): bool
+    {
+        $query = $connection->prepare($sql);
+
+        if (!empty($params)) {
+            foreach ($params as $key => $param) {
+                $query->bindValue($key, $param);
+            }
+        }
+        $result = $query->execute();
+
+        return $result;
+    }
 }

@@ -21,14 +21,19 @@ class User extends Model
     private $created_at;
 
 
-    private function __construct(int $id, string $email, string $password, string $first_name, string $last_name, string $created_at)
+    private function __construct(array $user)
     {
-        $this->setId($id);
-        $this->setEmail($email);
-        $this->setPassword($password);
-        $this->setFirstName($first_name);
-        $this->setLastName($last_name);
-        $this->setCreatedAt($created_at);
+        $this->init($user);
+    }
+
+    private function init(array $user)
+    {
+        $this->setId($user['id']);
+        $this->setEmail($user['email']);
+        $this->setPassword($user['password']);
+        $this->setFirstName($user['first_name']);
+        $this->setLastName($user['last_name']);
+        $this->setCreatedAt($user['created_at']);
     }
 
     /**
@@ -41,10 +46,10 @@ class User extends Model
 
         $result = self::isUserExist($request_params);
 
-        if(empty($result[0])) {
+        if(!$result) {
             return [
                 'result' => false,
-                'message' => 'No such user'
+                'message' => \Controllers\User::ERROR_MESSAGES['user_not_exist']
                 ];
         }
 
@@ -61,15 +66,13 @@ class User extends Model
         if (empty($user)) {
             return [
                 'result' => false,
-                'message' => 'Wrong email or password'
+                'message' => \Controllers\User::ERROR_MESSAGES['login_error']
             ];
         }
 
-        $user = $user[0];
-
         $result = [
             'result' => true,
-            'user' => new self($user['id'], $user['email'], $user['password'], $user['first_name'], $user['last_name'], $user['created_at'])
+            'user' => new self($user[0])
         ];
 
         return $result;
@@ -81,10 +84,10 @@ class User extends Model
 
         $result = self::isUserExist($request_params);
 
-        if(!empty($result[0])) {
+        if($result) {
             return [
                 'result' => false,
-                'message' => 'This email is already taken'
+                'message' => \Controllers\User::ERROR_MESSAGES['email_is_taker']
             ];
         }
 
@@ -100,10 +103,10 @@ class User extends Model
 
         $connection = Database::getConnection();
 
-        self::fetchData($connection, $sql, $params);
+        $result = self::insertData($connection, $sql, $params);
 
         return [
-            'result' => true
+            'result' => $result
         ];
     }
 
@@ -111,7 +114,7 @@ class User extends Model
      * @param array $request_params
      * @return array
      */
-    private static function isUserExist(array $request_params): array
+    private static function isUserExist(array $request_params): bool
     {
         $params = [
             ':email' => trim($request_params['email'])
@@ -121,7 +124,22 @@ class User extends Model
 
         $connection = Database::getConnection();
 
-        return self::fetchData($connection, $sql, $params, PDO::FETCH_COLUMN);
+        return (bool) self::fetchData($connection, $sql, $params, PDO::FETCH_COLUMN)[0];
+    }
+
+    public static function getById(int $id): User
+    {
+        $params = [
+            ':id' => $id
+        ];
+
+        $sql = "SELECT * FROM users WHERE id = :id";
+
+        $connection = Database::getConnection();
+
+        $user = self::fetchData($connection, $sql, $params)[0];
+
+        return new self($user);
     }
 
     /**

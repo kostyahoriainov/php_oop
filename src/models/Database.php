@@ -16,11 +16,12 @@ class Database
 
     public static function getConnection(string $database = 'mysql'): PDO
     {
-        $database_config = DB_CONFIG[$database];
-
-        $dns = $database . ':dbname=' . $database_config['database'] . ';host=' . $database_config['host'];
         try {
             if (!self::$connection) {
+                $database_config = DB_CONFIG[$database];
+
+                $dns = $database . ':dbname=' . $database_config['database'] . ';host=' . $database_config['host'];
+
                 self::$connection = new PDO(
                     $dns,
                     $database_config['user'],

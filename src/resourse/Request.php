@@ -15,15 +15,17 @@ class Request
 
     public $cookie;
 
+    public $session;
+
     private $path;
 
     private $uri;
 
     private $method;
 
-    public function __construct(array $query = [], array $request = [], $server = [], $cookie = [])
+    public function __construct(array $query = [], array $request = [], array $server = [], array $cookie = [], array $session = [])
     {
-        $this->init($query, $request, $server, $cookie);
+        $this->init($query, $request, $server, $cookie, $session);
     }
 
     /**
@@ -31,17 +33,27 @@ class Request
      * @param array $request
      * @param array $server
      * @param array $cookie
+     * @param array $session
      */
-    private function init(array $query = [], array $request = [], array $server = [], array $cookie = []): void
+    private function init(array $query = [], array $request = [], array $server = [], array $cookie = [], array $session = []): void
     {
         $this->request = $this->formatRequestParams($request, $_POST);
         $this->query = $this->formatRequestParams($query, $_GET);
         $this->server = $this->formatRequestParams($server, $_SERVER);
         $this->cookie = $this->formatRequestParams($cookie, $_COOKIE);
+        $this->session = $this->formatRequestParams($session, $_SESSION);
 
         $this->setUri();
         $this->setPath();
         $this->setMethod();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 
     /**
