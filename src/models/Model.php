@@ -1,7 +1,7 @@
 <?php
 
 
-namespace models;
+namespace Models;
 
 use \PDO;
 

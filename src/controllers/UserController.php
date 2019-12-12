@@ -24,6 +24,7 @@ class UserController extends Controller
     {
 
         $request = $this->getRequest();
+        $request_params = $request->getRequestParams();
 
         $result = \Models\User::find($request);
 
@@ -38,50 +39,18 @@ class UserController extends Controller
         }
 
         header('Location: /home');
+        die;
     }
 
     public function signUpViewAction(): void
     {
-        if ($this->isUserAuth()) {
-            header('Location: /home');
-            die;
-        }
-
         require_once '../views/sign-up/index.phtml';
     }
 
     public function signUpSaveAction()
     {
-        if ($this->isUserAuth()) {
-            header('Location: /home');
-            die;
-        }
-
         $request = $this->getRequest();
         $request_params = $request->getRequestParams();
-        $error = $this->checkRequestParamsForEmpty($request_params);
-
-        if (!empty($error)) {
-            $error['message'] = self::ERROR_MESSAGES['empty_field'];
-            require_once '../views/sign-up/index.phtml';
-            die;
-        }
-
-        $password_length = strlen($request_params['password']);
-
-        if ($password_length < 6) {
-            $error['message'] = self::ERROR_MESSAGES['password_validation'];
-            $error['password'] = $error['password_repeat'] = true;
-            require_once '../views/sign-up/index.phtml';
-            die;
-        }
-
-        if ($request_params['password'] !== $request_params['password_repeat']) {
-            $error['message'] = self::ERROR_MESSAGES['different_passwords'];
-            $error['password'] = $error['password_repeat'] = true;
-            require_once '../views/sign-up/index.phtml';
-            die;
-        }
 
         $result = \Models\User::create($request);
 
@@ -92,15 +61,11 @@ class UserController extends Controller
         }
 
         header('Location: /');
+        die;
     }
 
     public function homeAction(): void
     {
-        if (!$this->isUserAuth()) {
-            header('Location: /');
-            die;
-        }
-
         $user_id = $this->getAuthUserId();
 
         $user = \Models\User::getById($user_id);

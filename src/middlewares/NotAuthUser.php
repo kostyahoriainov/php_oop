@@ -3,10 +3,9 @@
 
 namespace Middleware;
 
+use \Resource\Request;
 
-use Resource\Request;
-
-class AuthUser extends Middleware
+class NotAuthUser extends Middleware
 {
 
     /**
@@ -15,8 +14,8 @@ class AuthUser extends Middleware
     public function check(): bool
     {
         $session = (Request::createRequestFromGlobals())->getSession();
-        if (!empty($session['auth'])) {
-            header('Location: /home');
+        if (empty($session['auth'])) {
+            header('Location: /main');
             die;
         }
 

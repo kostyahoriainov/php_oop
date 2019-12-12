@@ -53,13 +53,13 @@ class User extends Model
     {
         $request_params = $request->getRequestParams();
 
-        dump($request_params);
         $error = self::checkRequestParamsForEmpty($request_params);
-        dump($error);
+
         if (!empty($error)) {
-            $error['message'] = self::ERROR_MESSAGES['empty_field'];
-            require_once '../views/auth/index.phtml';
-            die;
+            return [
+                'result' => false,
+                'message' => self::ERROR_MESSAGES['empty_field']
+            ];
         }
 
         $result = self::isUserExist($request_params);
@@ -67,7 +67,7 @@ class User extends Model
         if(!$result) {
             return [
                 'result' => false,
-                'message' => \Controllers\UserController::ERROR_MESSAGES['user_not_exist']
+                'message' => self::ERROR_MESSAGES['user_not_exist']
                 ];
         }
 
@@ -75,6 +75,7 @@ class User extends Model
             ':email' => trim($request_params['email']),
             ':password' => md5(trim($request_params['password']))
         ];
+
         $sql = "SELECT * FROM users WHERE email = :email AND password = :password";
 
         $connection = Database::getConnection();
@@ -84,7 +85,7 @@ class User extends Model
         if (empty($user)) {
             return [
                 'result' => false,
-                'message' => \Controllers\UserController::ERROR_MESSAGES['login_error']
+                'message' => self::ERROR_MESSAGES['login_error']
             ];
         }
 
@@ -100,12 +101,41 @@ class User extends Model
     {
         $request_params = $request->getRequestParams();
 
+        $error = self::checkRequestParamsForEmpty($request_params);
+
+        if (!empty($error)) {
+            return [
+                'result' => false,
+                'message' => self::ERROR_MESSAGES['empty_field']
+            ];
+        }
+
+        $password_length = strlen($request_params['password']);
+
+        if ($password_length < 6) {
+            return [
+              'result' => false,
+              'message' => self::ERROR_MESSAGES['password_validation'],
+              'password' => true,
+              'password_repeat' => true
+            ];
+        }
+
+        if ($request_params['password'] !== $request_params['password_repeat']) {
+            return [
+                'result' => false,
+                'message' => self::ERROR_MESSAGES['different_passwords'],
+                'password' => true,
+                'password_repeat' => true
+            ];
+        }
+
         $result = self::isUserExist($request_params);
 
         if($result) {
             return [
                 'result' => false,
-                'message' => \Controllers\UserController::ERROR_MESSAGES['email_is_taker']
+                'message' => self::ERROR_MESSAGES['email_is_taker']
             ];
         }
 
@@ -130,7 +160,7 @@ class User extends Model
 
     /**
      * @param array $request_params
-     * @return array
+     * @return bool
      */
     private static function isUserExist(array $request_params): bool
     {
@@ -145,6 +175,10 @@ class User extends Model
         return (bool) self::fetchData($connection, $sql, $params, PDO::FETCH_COLUMN)[0];
     }
 
+    /**
+     * @param int $id
+     * @return User
+     */
     public static function getById(int $id): User
     {
         $params = [

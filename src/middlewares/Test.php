@@ -11,7 +11,7 @@ class Test extends Middleware
 
     public function check(): bool
     {
-//        echo 'Test middleware';
+        echo 'Test middleware';
         return parent::check();
     }
 }
