@@ -36,4 +36,16 @@ abstract class Model
 
         return $result;
     }
+
+    protected static function checkRequestParamsForEmpty(array $request_params): array
+    {
+        $errors = [];
+        foreach ($request_params as $key => $param) {
+            if (empty($param)) {
+                $errors[$key] = true;
+            }
+        }
+
+        return $errors;
+    }
 }

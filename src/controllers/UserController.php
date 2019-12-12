@@ -9,15 +9,6 @@ use Resource\Request;
 class UserController extends Controller
 {
 
-    public const ERROR_MESSAGES = [
-        'empty_field' => 'Please, fulfill all fields',
-        'password_validation' => 'Password must be more that 6 symbols',
-        'different_passwords' => 'Passwords are different',
-        'user_not_exist' => 'No such user!',
-        'login_error' => 'Wrong email or password',
-        'email_is_taker' => 'This email is already taken'
-    ];
-
     public function __construct(Request $request)
     {
         parent::__construct($request);
@@ -31,20 +22,8 @@ class UserController extends Controller
 
     public function loginAction(): void
     {
-        if ($this->isUserAuth()) {
-            header('Location: /home');
-            die;
-        }
 
         $request = $this->getRequest();
-        $request_params = $request->getRequestParams();
-        $error = $this->checkRequestParamsForEmpty($request_params);
-
-        if (!empty($error)) {
-            $error['message'] = self::ERROR_MESSAGES['empty_field'];
-            require_once '../views/auth/index.phtml';
-            die;
-        }
 
         $result = \Models\User::find($request);
 

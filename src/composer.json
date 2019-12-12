@@ -6,9 +6,7 @@
             "email": "konstiantyn.horiainov@gmail.com"
         }
     ],
-    "require": {
-        "symfony/http-foundation": "^5.0"
-    },
+    "require": {},
     "require-dev": {
         "symfony/var-dumper": "^5.0"
     },

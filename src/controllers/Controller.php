@@ -26,25 +26,6 @@ abstract class Controller
         return $this->request;
     }
 
-    protected function checkRequestParamsForEmpty(array $request_params): array
-    {
-        $errors = [];
-        foreach ($request_params as $key => $param) {
-            if (empty($param)) {
-                $errors[$key] = true;
-            }
-        }
-
-        return $errors;
-    }
-
-    protected function isUserAuth(): bool
-    {
-        $session = $this->getRequest()->getSession();
-
-        return isset($session['auth']);
-    }
-
     protected function getAuthUserId(): int
     {
         return $this->getRequest()->getSession()['auth'];

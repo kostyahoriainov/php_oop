@@ -21,6 +21,14 @@ class User extends Model
 
     private $created_at;
 
+    public const ERROR_MESSAGES = [
+        'empty_field' => 'Please, fulfill all fields',
+        'password_validation' => 'Password must be more that 6 symbols',
+        'different_passwords' => 'Passwords are different',
+        'user_not_exist' => 'No such user!',
+        'login_error' => 'Wrong email or password',
+        'email_is_taker' => 'This email is already taken'
+    ];
 
     private function __construct(array $user)
     {
@@ -44,6 +52,15 @@ class User extends Model
     public static function find(Request $request): array
     {
         $request_params = $request->getRequestParams();
+
+        dump($request_params);
+        $error = self::checkRequestParamsForEmpty($request_params);
+        dump($error);
+        if (!empty($error)) {
+            $error['message'] = self::ERROR_MESSAGES['empty_field'];
+            require_once '../views/auth/index.phtml';
+            die;
+        }
 
         $result = self::isUserExist($request_params);
 
