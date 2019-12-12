@@ -4,9 +4,9 @@
 namespace Controllers;
 
 
-use Resourse\Request;
+use Resource\Request;
 
-class User extends Controller
+class UserController extends Controller
 {
 
     public const ERROR_MESSAGES = [
@@ -25,10 +25,6 @@ class User extends Controller
 
     public function indexAction(): void
     {
-        if ($this->isUserAuth()) {
-            header('Location: /home');
-            die;
-        }
 
         require_once '../views/auth/index.phtml';
     }

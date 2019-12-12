@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Resourse;
+namespace Resource;
 
 
 class Request
@@ -22,6 +22,8 @@ class Request
     private $uri;
 
     private $method;
+
+    private static $instance = null;
 
     public function __construct(array $query = [], array $request = [], array $server = [], array $cookie = [], array $session = [])
     {
@@ -68,6 +70,15 @@ class Request
         }
 
         return $params;
+    }
+
+    public static function createRequestFromGlobals()
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
     /**

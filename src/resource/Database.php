@@ -1,18 +1,18 @@
 <?php
 
-namespace Models;
+namespace Resource;
 
 
 use PDO;
 use PDOException;
 
-class Database
+final class Database
 {
     private static $connection = null;
 
-    private function __construct() {}
+    final private function __construct() {}
 
-    private function __clone() {}
+    final private function __clone() {}
 
     public static function getConnection(string $database = 'mysql'): PDO
     {

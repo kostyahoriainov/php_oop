@@ -4,7 +4,8 @@
 namespace Models;
 
 use \PDO;
-use \Resourse\Request;
+use \Resource\Request;
+use \Resource\Database;
 
 class User extends Model
 {
@@ -49,7 +50,7 @@ class User extends Model
         if(!$result) {
             return [
                 'result' => false,
-                'message' => \Controllers\User::ERROR_MESSAGES['user_not_exist']
+                'message' => \Controllers\UserController::ERROR_MESSAGES['user_not_exist']
                 ];
         }
 
@@ -66,7 +67,7 @@ class User extends Model
         if (empty($user)) {
             return [
                 'result' => false,
-                'message' => \Controllers\User::ERROR_MESSAGES['login_error']
+                'message' => \Controllers\UserController::ERROR_MESSAGES['login_error']
             ];
         }
 
@@ -87,7 +88,7 @@ class User extends Model
         if($result) {
             return [
                 'result' => false,
-                'message' => \Controllers\User::ERROR_MESSAGES['email_is_taker']
+                'message' => \Controllers\UserController::ERROR_MESSAGES['email_is_taker']
             ];
         }
 

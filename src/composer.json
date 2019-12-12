@@ -6,8 +6,19 @@
             "email": "konstiantyn.horiainov@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "symfony/http-foundation": "^5.0"
+    },
     "require-dev": {
         "symfony/var-dumper": "^5.0"
+    },
+    "autoload": {
+        "classmap": [
+            "controllers/",
+            "models/",
+            "core/",
+            "resource/",
+            "middlewares/"
+        ]
     }
 }

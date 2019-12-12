@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "53c4293bb27c830189c5a05c964e27f4",
+    "content-hash": "87e4dc809a3267ce63ddabcb36ca266c",
     "packages": [
         {
             "name": "symfony/http-foundation",
@@ -298,7 +298,9 @@
                 "shim"
             ],
             "time": "2019-11-27T13:56:44+00:00"
-        },
+        }
+    ],
+    "packages-dev": [
         {
             "name": "symfony/routing",
             "version": "v5.0.1",
@@ -374,9 +376,7 @@
                 "url"
             ],
             "time": "2019-12-01T08:48:26+00:00"
-        }
-    ],
-    "packages-dev": [
+        },
         {
             "name": "symfony/var-dumper",
             "version": "v5.0.1",

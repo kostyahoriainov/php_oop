@@ -3,13 +3,14 @@
 session_start();
 
 define('DB_CONFIG', require_once '../config/databases.php');
+define('ROUTER_CONFIG', require_once '../config/router.config.php');
 
 require __DIR__.'/../vendor/autoload.php';
 
+use Core\Router;
 
-use Router\Router;
-use Resourse\Request;
 
-$router = new Router(new Request());
+$router = new Router();
+$router->run();
 
-$router->run();;
+

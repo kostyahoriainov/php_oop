@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Resourse\Request;
+use Resource\Request;
 
 abstract class Controller
 {
