@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'main' => [
+    'mysql' => [
         'host' => 'mysql',
         'user' => 'root',
         'password' => 'rootpass',

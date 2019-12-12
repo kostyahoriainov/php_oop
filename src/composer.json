@@ -1,0 +1,22 @@
+{
+    "name": "kostya/src",
+    "authors": [
+        {
+            "name": "kostyahoriainov",
+            "email": "konstiantyn.horiainov@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "symfony/var-dumper": "^5.0"
+    },
+    "autoload": {
+        "classmap": [
+            "controllers/",
+            "models/",
+            "core/",
+            "resource/",
+            "middlewares/"
+        ]
+    }
+}
